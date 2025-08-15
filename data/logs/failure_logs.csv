@@ -1,0 +1,125 @@
+timestamp,failure_id,scenario_name,type,target_services,failure_type,duration,status
+2025-08-15T22:46:25.821879,single_service_b_degraded_1755278181,SERVICE_B Service Degraded,single_service,service_b,degraded,104,injected
+2025-08-15T22:46:39.918423,single_service_a_down_1755278195,SERVICE_A Service Down,single_service,service_a,down,74,injected
+2025-08-15T22:48:37.614437,single_service_c_degraded_1755278313,SERVICE_C Service Degraded,single_service,service_c,degraded,239,injected
+2025-08-15T22:49:06.500355,network_partition_1755278338,Network Partition,network,service_a,service_d,down,120,injected
+2025-08-15T22:49:20.623542,single_service_d_down_1755278356,SERVICE_D Service Down,single_service,service_d,down,31,injected
+2025-08-15T22:49:34.690686,single_service_e_degraded_1755278370,SERVICE_E Service Degraded,single_service,service_e,degraded,291,injected
+2025-08-15T22:49:57.168174,single_service_d_down_1755278356,SERVICE_D Service Down,single_service,service_d,down,31,recovered
+2025-08-15T22:50:08.806498,single_service_a_degraded_1755278404,SERVICE_A Service Degraded,single_service,service_a,degraded,154,injected
+2025-08-15T22:51:13.351838,network_partition_1755278338,Network Partition,network,service_a,service_d,down,120,recovered
+2025-08-15T22:51:22.872545,single_service_d_degraded_1755278478,SERVICE_D Service Degraded,single_service,service_d,degraded,283,injected
+2025-08-15T22:51:46.950300,single_service_c_degraded_1755278502,SERVICE_C Service Degraded,single_service,service_c,degraded,185,injected
+2025-08-15T22:52:13.227505,single_service_a_degraded_1755278531,SERVICE_A Service Degraded,single_service,service_a,degraded,91,injected
+2025-08-15T22:52:19.017002,single_service_b_degraded_1755278536,SERVICE_B Service Degraded,single_service,service_b,degraded,133,injected
+2025-08-15T22:52:33.073906,config_drift_timeout_1755278549,Configuration Drift - Timeout,config,service_b,service_c,degraded,240,injected
+2025-08-15T22:52:45.101803,single_service_e_degraded_1755278563,SERVICE_E Service Degraded,single_service,service_e,degraded,291,injected
+2025-08-15T22:52:45.416554,single_service_a_degraded_1755278404,SERVICE_A Service Degraded,single_service,service_a,degraded,154,recovered
+2025-08-15T22:52:52.449907,single_service_a_degraded_1755278404,SERVICE_A Service Degraded,single_service,service_a,degraded,154,recovered
+2025-08-15T22:53:17.162083,single_service_a_degraded_1755278595,SERVICE_A Service Degraded,single_service,service_a,degraded,154,injected
+2025-08-15T22:53:39.202304,single_service_c_degraded_1755278617,SERVICE_C Service Degraded,single_service,service_c,degraded,185,injected
+2025-08-15T22:53:48.217554,single_service_a_degraded_1755278531,SERVICE_A Service Degraded,single_service,service_a,degraded,91,recovered
+2025-08-15T22:56:22.059117,single_service_e_degraded_1755278780,SERVICE_E Service Degraded,single_service,service_e,degraded,177,injected
+2025-08-15T22:57:16.236364,memory_pressure_1755278832,Memory Pressure,resource,service_a,service_e,degraded,180,injected
+2025-08-15T22:58:08.292444,single_service_d_degraded_1755278886,SERVICE_D Service Degraded,single_service,service_d,degraded,187,injected
+2025-08-15T22:59:15.380332,single_service_b_degraded_1755278948,SERVICE_B Service Degraded,single_service,service_b,degraded,72,injected
+2025-08-15T22:59:22.957575,single_service_e_degraded_1755278780,SERVICE_E Service Degraded,single_service,service_e,degraded,177,recovered
+2025-08-15T22:59:49.515780,config_drift_timeout_1755278975,Configuration Drift - Timeout,config,service_b,service_c,degraded,240,injected
+2025-08-15T23:00:27.100746,memory_pressure_1755278832,Memory Pressure,resource,service_a,service_e,degraded,180,recovered
+2025-08-15T23:00:39.151846,single_service_b_degraded_1755278948,SERVICE_B Service Degraded,single_service,service_b,degraded,72,recovered
+2025-08-15T23:01:06.579723,single_service_a_down_1755279059,SERVICE_A Service Down,single_service,service_a,down,76,injected
+2025-08-15T23:01:26.230324,single_service_d_degraded_1755278886,SERVICE_D Service Degraded,single_service,service_d,degraded,187,recovered
+2025-08-15T23:05:17.075788,single_service_d_degraded_1755279315,SERVICE_D Service Degraded,single_service,service_d,degraded,136,injected
+2025-08-15T23:05:39.129599,single_service_d_down_1755279337,SERVICE_D Service Down,single_service,service_d,down,30,injected
+2025-08-15T23:06:01.173619,single_service_c_degraded_1755279359,SERVICE_C Service Degraded,single_service,service_c,degraded,69,injected
+2025-08-15T23:06:12.119637,single_service_d_down_1755279337,SERVICE_D Service Down,single_service,service_d,down,30,recovered
+2025-08-15T23:06:23.229507,single_service_d_down_1755279381,SERVICE_D Service Down,single_service,service_d,down,30,injected
+2025-08-15T23:06:43.007820,single_service_c_degraded_1755279395,SERVICE_C Service Degraded,single_service,service_c,degraded,62,injected
+2025-08-15T23:06:50.290427,memory_pressure_1755279403,Memory Pressure,resource,service_a,service_e,degraded,180,injected
+2025-08-15T23:06:59.176316,single_service_d_down_1755279381,SERVICE_D Service Down,single_service,service_d,down,30,recovered
+2025-08-15T23:07:17.340251,single_service_d_degraded_1755279430,SERVICE_D Service Degraded,single_service,service_d,degraded,136,injected
+2025-08-15T23:07:21.254005,single_service_c_degraded_1755279359,SERVICE_C Service Degraded,single_service,service_c,degraded,69,recovered
+2025-08-15T23:07:33.334395,single_service_c_degraded_1755279359,SERVICE_C Service Degraded,single_service,service_c,degraded,69,recovered
+2025-08-15T23:07:44.401957,single_service_b_down_1755279457,SERVICE_B Service Down,single_service,service_b,down,75,injected
+2025-08-15T23:07:45.398563,single_service_d_degraded_1755279315,SERVICE_D Service Degraded,single_service,service_d,degraded,136,recovered
+2025-08-15T23:07:50.045679,single_service_d_down_1755279463,SERVICE_D Service Down,single_service,service_d,down,31,injected
+2025-08-15T23:07:53.027141,single_service_c_degraded_1755279395,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:07:57.467032,single_service_d_degraded_1755279315,SERVICE_D Service Degraded,single_service,service_d,degraded,136,recovered
+2025-08-15T23:08:03.507534,memory_pressure_1755279474,Memory Pressure,resource,service_a,service_e,degraded,180,injected
+2025-08-15T23:08:05.083900,single_service_c_degraded_1755279395,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:08:32.173088,single_service_d_down_1755279463,SERVICE_D Service Down,single_service,service_d,down,31,recovered
+2025-08-15T23:09:09.541461,single_service_b_down_1755279457,SERVICE_B Service Down,single_service,service_b,down,75,recovered
+2025-08-15T23:09:21.607796,single_service_b_down_1755279457,SERVICE_B Service Down,single_service,service_b,down,75,recovered
+2025-08-15T23:09:43.656229,single_service_d_degraded_1755279430,SERVICE_D Service Degraded,single_service,service_d,degraded,136,recovered
+2025-08-15T23:09:51.190325,single_service_b_down_1755279584,SERVICE_B Service Down,single_service,service_b,down,104,injected
+2025-08-15T23:11:44.258373,single_service_b_down_1755279584,SERVICE_B Service Down,single_service,service_b,down,104,recovered
+2025-08-15T23:12:28.257511,single_service_c_degraded_1755279741,SERVICE_C Service Degraded,single_service,service_c,degraded,62,injected
+2025-08-15T23:12:52.379873,memory_pressure_1755279758,Memory Pressure,resource,service_a,service_e,degraded,180,injected
+2025-08-15T23:13:09.420917,single_service_d_degraded_1755279782,SERVICE_D Service Degraded,single_service,service_d,degraded,206,injected
+2025-08-15T23:13:40.407455,single_service_c_degraded_1755279741,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:15:23.568017,memory_pressure_1755279909,Memory Pressure,resource,service_a,service_e,degraded,180,injected
+2025-08-15T23:16:09.612219,memory_pressure_1755279758,Memory Pressure,resource,service_a,service_e,degraded,180,recovered
+2025-08-15T23:16:46.661527,single_service_d_degraded_1755279782,SERVICE_D Service Degraded,single_service,service_d,degraded,206,recovered
+2025-08-15T23:17:03.913126,config_drift_timeout_1755280009,Configuration Drift - Timeout,config,service_b,service_c,degraded,240,injected
+2025-08-15T23:17:50.973672,single_service_d_down_1755280063,SERVICE_D Service Down,single_service,service_d,down,31,injected
+2025-08-15T23:18:25.059919,single_service_c_degraded_1755280100,SERVICE_C Service Degraded,single_service,service_c,degraded,62,injected
+2025-08-15T23:18:39.162998,single_service_c_degraded_1755280115,SERVICE_C Service Degraded,single_service,service_c,degraded,62,injected
+2025-08-15T23:18:40.779646,memory_pressure_1755279909,Memory Pressure,resource,service_a,service_e,degraded,180,recovered
+2025-08-15T23:18:53.240056,single_service_b_degraded_1755280129,SERVICE_B Service Degraded,single_service,service_b,degraded,194,injected
+2025-08-15T23:18:59.926530,memory_pressure_1755279909,Memory Pressure,resource,service_a,service_e,degraded,180,recovered
+2025-08-15T23:19:19.071231,memory_pressure_1755279909,Memory Pressure,resource,service_a,service_e,degraded,180,recovered
+2025-08-15T23:19:26.149043,single_service_d_down_1755280063,SERVICE_D Service Down,single_service,service_d,down,31,recovered
+2025-08-15T23:19:32.667083,high_load_all_1755280143,High Load All Services,load,service_a,service_b,service_c,service_d,service_e,degraded,300,injected
+2025-08-15T23:19:35.244134,single_service_c_degraded_1755280100,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:19:59.551417,single_service_c_degraded_1755280100,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:20:06.756211,single_service_b_degraded_1755280202,SERVICE_B Service Degraded,single_service,service_b,degraded,194,injected
+2025-08-15T23:20:08.626486,single_service_c_degraded_1755280115,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:20:17.726059,single_service_c_degraded_1755280115,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:20:40.896594,network_partition_1755280226,Network Partition,network,service_a,service_d,down,120,injected
+2025-08-15T23:20:54.998781,single_service_b_degraded_1755280250,SERVICE_B Service Degraded,single_service,service_b,degraded,194,injected
+2025-08-15T23:21:15.915777,config_drift_timeout_1755280009,Configuration Drift - Timeout,config,service_b,service_c,degraded,240,recovered
+2025-08-15T23:21:49.109408,single_service_c_degraded_1755280305,SERVICE_C Service Degraded,single_service,service_c,degraded,62,injected
+2025-08-15T23:22:14.997359,single_service_b_degraded_1755280129,SERVICE_B Service Degraded,single_service,service_b,degraded,194,recovered
+2025-08-15T23:22:59.113395,network_partition_1755280226,Network Partition,network,service_a,service_d,down,120,recovered
+2025-08-15T23:23:08.184044,single_service_c_degraded_1755280305,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:23:27.254620,single_service_b_degraded_1755280202,SERVICE_B Service Degraded,single_service,service_b,degraded,194,recovered
+2025-08-15T23:24:16.344162,single_service_b_degraded_1755280250,SERVICE_B Service Degraded,single_service,service_b,degraded,194,recovered
+2025-08-15T23:24:31.630905,single_service_c_degraded_1755280467,SERVICE_C Service Degraded,single_service,service_c,degraded,62,injected
+2025-08-15T23:24:59.847773,high_load_all_1755280143,High Load All Services,load,service_a,service_b,service_c,service_d,service_e,degraded,300,recovered
+2025-08-15T23:25:05.711655,single_service_c_degraded_1755280501,SERVICE_C Service Degraded,single_service,service_c,degraded,62,injected
+2025-08-15T23:25:22.768264,single_service_e_degraded_1755280515,SERVICE_E Service Degraded,single_service,service_e,degraded,169,injected
+2025-08-15T23:25:36.875758,single_service_a_degraded_1755280532,SERVICE_A Service Degraded,single_service,service_a,degraded,96,injected
+2025-08-15T23:25:42.066819,single_service_c_degraded_1755280467,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:26:16.160366,single_service_c_degraded_1755280501,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:26:50.975615,single_service_b_degraded_1755280606,SERVICE_B Service Degraded,single_service,service_b,degraded,194,injected
+2025-08-15T23:27:15.049876,single_service_a_down_1755280630,SERVICE_A Service Down,single_service,service_a,down,39,injected
+2025-08-15T23:27:29.136809,single_service_a_degraded_1755280645,SERVICE_A Service Degraded,single_service,service_a,degraded,96,injected
+2025-08-15T23:28:02.084143,single_service_a_degraded_1755280532,SERVICE_A Service Degraded,single_service,service_a,degraded,96,recovered
+2025-08-15T23:28:11.154581,single_service_a_down_1755280630,SERVICE_A Service Down,single_service,service_a,down,39,recovered
+2025-08-15T23:28:17.290891,config_drift_timeout_1755280689,Configuration Drift - Timeout,config,service_b,service_c,degraded,240,injected
+2025-08-15T23:28:23.188957,single_service_e_degraded_1755280515,SERVICE_E Service Degraded,single_service,service_e,degraded,169,recovered
+2025-08-15T23:28:31.396536,single_service_a_down_1755280707,SERVICE_A Service Down,single_service,service_a,down,39,injected
+2025-08-15T23:28:35.269753,single_service_e_degraded_1755280515,SERVICE_E Service Degraded,single_service,service_e,degraded,169,recovered
+2025-08-15T23:28:47.363542,single_service_e_degraded_1755280515,SERVICE_E Service Degraded,single_service,service_e,degraded,169,recovered
+2025-08-15T23:29:11.437720,single_service_a_degraded_1755280645,SERVICE_A Service Degraded,single_service,service_a,degraded,96,recovered
+2025-08-15T23:29:15.504809,single_service_b_down_1755280751,SERVICE_B Service Down,single_service,service_b,down,104,injected
+2025-08-15T23:29:20.532434,single_service_a_down_1755280707,SERVICE_A Service Down,single_service,service_a,down,39,recovered
+2025-08-15T23:29:29.582999,single_service_c_degraded_1755280765,SERVICE_C Service Degraded,single_service,service_c,degraded,62,injected
+2025-08-15T23:30:09.649692,single_service_b_degraded_1755280606,SERVICE_B Service Degraded,single_service,service_b,degraded,194,recovered
+2025-08-15T23:30:38.765700,single_service_c_degraded_1755280765,SERVICE_C Service Degraded,single_service,service_c,degraded,62,recovered
+2025-08-15T23:31:07.868148,single_service_b_down_1755280751,SERVICE_B Service Down,single_service,service_b,down,104,recovered
+2025-08-15T23:31:26.651772,single_service_e_degraded_1755280879,SERVICE_E Service Degraded,single_service,service_e,degraded,169,injected
+2025-08-15T23:32:26.020137,config_drift_timeout_1755280689,Configuration Drift - Timeout,config,service_b,service_c,degraded,240,recovered
+2025-08-15T23:33:10.143374,high_load_all_1755280966,High Load All Services,load,service_a,service_b,service_c,service_d,service_e,degraded,300,injected
+2025-08-15T23:34:58.684481,single_service_b_degraded_1755281096,SERVICE_B Service Degraded,single_service,service_b,degraded,220,injected
+2025-08-15T23:36:30.757811,single_service_a_down_1755281188,SERVICE_A Service Down,single_service,service_a,down,97,injected
+2025-08-15T23:38:12.834021,single_service_c_degraded_1755281280,SERVICE_C Service Degraded,single_service,service_c,degraded,222,injected
+2025-08-15T23:38:13.707475,single_service_a_down_1755281188,SERVICE_A Service Down,single_service,service_a,down,97,recovered
+2025-08-15T23:38:20.727499,single_service_a_down_1755281188,SERVICE_A Service Down,single_service,service_a,down,97,recovered
+2025-08-15T23:38:46.914560,memory_pressure_1755281322,Memory Pressure,resource,service_a,service_e,degraded,180,injected
+2025-08-15T23:38:52.801400,single_service_b_degraded_1755281096,SERVICE_B Service Degraded,single_service,service_b,degraded,220,recovered
+2025-08-15T23:51:35.071554,manual_1755282026,Manual degraded failure,custom,service_a,degraded,60,recovered
+2025-08-15T23:51:42.132184,manual_1755282026,Manual degraded failure,custom,service_a,degraded,60,recovered
+2025-08-15T23:53:39.178816,manual_1755282092,Manual degraded failure,custom,service_c,degraded,120,recovered
+2025-08-16T00:12:42.801843,single_service_b_down_1755283350,SERVICE_B Service Down,single_service,service_b,down,112,injected
+2025-08-16T00:14:47.862976,single_service_b_down_1755283350,SERVICE_B Service Down,single_service,service_b,down,112,recovered
