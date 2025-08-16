@@ -41,9 +41,9 @@ def logs():
         {"timestamp": datetime.datetime.utcnow().isoformat(),
          "level": "INFO", "msg": "Database service check started"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "INFO", "Query executed successfully: SELECT * FROM users"},
+         "level": "INFO", "msg": "Query executed successfully: SELECT * FROM users"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "WARN", "Slow query detected: execution_time=2.5s"},
+         "level": "WARN", "msg": "Slow query detected: execution_time=2.5s"},
     ]
     if random.random() < 0.3:
         fake_logs.append({

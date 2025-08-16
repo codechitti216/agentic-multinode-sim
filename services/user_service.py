@@ -66,9 +66,9 @@ def logs():
         {"timestamp": datetime.datetime.utcnow().isoformat(),
          "level": "INFO", "msg": "User service check started"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "INFO", "User profile updated: user_id=123"},
+         "level": "INFO", "msg": "User profile updated: user_id=123"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "WARN", "User session expired: user_id=456"},
+         "level": "WARN", "msg": "User session expired: user_id=456"},
     ]
     if random.random() < 0.3:
         fake_logs.append({

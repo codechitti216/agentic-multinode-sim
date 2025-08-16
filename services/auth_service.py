@@ -32,9 +32,9 @@ def logs():
         {"timestamp": datetime.datetime.utcnow().isoformat(),
          "level": "INFO", "msg": "Authentication service check started"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "INFO", "User login successful: john.doe@example.com"},
+         "level": "INFO", "msg": "User login successful: john.doe@example.com"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "WARN", "Multiple failed login attempts from IP: 192.168.1.100"},
+         "level": "WARN", "msg": "Multiple failed login attempts from IP: 192.168.1.100"},
     ]
     if random.random() < 0.3:
         fake_logs.append({

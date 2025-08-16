@@ -52,9 +52,9 @@ def logs():
         {"timestamp": datetime.datetime.utcnow().isoformat(),
          "level": "INFO", "msg": "Notification service check started"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "INFO", "Email notification sent: user_id=123"},
+         "level": "INFO", "msg": "Email notification sent: user_id=123"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "WARN", "SMS delivery failed: phone=+1234567890"},
+         "level": "WARN", "msg": "SMS delivery failed: phone=+1234567890"},
     ]
     if random.random() < 0.3:
         fake_logs.append({

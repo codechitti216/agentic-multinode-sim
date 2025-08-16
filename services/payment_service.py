@@ -66,9 +66,9 @@ def logs():
         {"timestamp": datetime.datetime.utcnow().isoformat(),
          "level": "INFO", "msg": "Payment service check started"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "INFO", "Payment processed successfully: payment_id=789"},
+         "level": "INFO", "msg": "Payment processed successfully: payment_id=789"},
         {"timestamp": datetime.datetime.utcnow().isoformat(),
-         "level": "WARN", "Payment declined: insufficient_funds"},
+         "level": "WARN", "msg": "Payment declined: insufficient_funds"},
     ]
     if random.random() < 0.3:
         fake_logs.append({
