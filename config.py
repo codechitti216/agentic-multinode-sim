@@ -1,45 +1,37 @@
+from dotenv import load_dotenv
 import os
-from typing import Dict, List
 
-# Service Configuration
-SERVICES = {
-    "service_a": {"port": 8001, "dependencies": ["service_b"]},
-    "service_b": {"port": 8002, "dependencies": ["service_c"]},
-    "service_c": {"port": 8003, "dependencies": ["service_d"]},
-    "service_d": {"port": 8004, "dependencies": ["service_a"]},
-    "service_e": {"port": 8005, "dependencies": ["service_b", "service_c"]}
+# Load environment variables from .env if available
+load_dotenv()
+
+# -------------------------------
+# LLM Config
+# -------------------------------
+LMSTUDIO_BASE_URL = os.getenv("LMSTUDIO_BASE_URL", "http://localhost:1234/v1")
+LMSTUDIO_API_KEY  = os.getenv("LMSTUDIO_API_KEY", "lm-studio")
+
+# -------------------------------
+# Ports for all microservices
+# (override via .env if needed)
+# -------------------------------
+PORTS = {
+    "auth":         int(os.getenv("AUTH_PORT", 8001)),
+    "user":         int(os.getenv("USER_PORT", 8002)),
+    "database":     int(os.getenv("DATABASE_PORT", 8003)),
+    "payment":      int(os.getenv("PAYMENT_PORT", 8004)),
+    "notification": int(os.getenv("NOTIFICATION_PORT", 8005)),
+    "networking":   int(os.getenv("NETWORKING_PORT", 8006)),   # ✅ Networking runs on 8006
+    "commander":    int(os.getenv("COMMANDER_PORT", 9080)),
 }
 
-# LLM Configuration
-LLM_BASE_URL = "http://localhost:1234"
-LLM_ENDPOINT = f"{LLM_BASE_URL}/v1/chat/completions"
-LLM_MODEL = "local-llm"
+# -------------------------------
+# Port validation - ensure networking is on 8006
+# -------------------------------
+if PORTS["networking"] != 8006:
+    print(f"⚠️  WARNING: Networking port is {PORTS['networking']}, expected 8006")
+    print(f"   Check your .env file for NETWORKING_PORT setting")
 
-# Dashboard Configuration
-DASHBOARD_PORT = 8501
-REFRESH_INTERVAL = 2  # seconds
-
-# Failure Injection Configuration
-FAILURE_INJECTION_INTERVAL = 60  # seconds (1 minute)
-FAILURE_PROBABILITY = 0.05  # 5% chance instead of 20%
-
-# Logging Configuration
-LOG_DIR = "data/logs"
-LOG_FILE = "incident_logs.csv"
-
-# Health Check Configuration
-HEALTH_CHECK_INTERVAL = 20  # seconds
-
-# Service States
-SERVICE_STATES = {
-    "healthy": "🟢",
-    "degraded": "🟡", 
-    "down": "🔴"
-}
-
-# Colors for visualization
-STATUS_COLORS = {
-    "healthy": "#00ff00",
-    "degraded": "#ffff00",
-    "down": "#ff0000"
-}
+# -------------------------------
+# Data / logs storage location
+# -------------------------------
+DATA_DIR = os.getenv("DATA_DIR", "./data")
