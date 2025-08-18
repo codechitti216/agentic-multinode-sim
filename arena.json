@@ -1,0 +1,30 @@
+{
+  "services": {
+    "api_gateway": {
+      "port": 8001,
+      "script": "services/api_gateway.py",
+      "dependencies": ["user_service", "payment_service"]
+    },
+    "database_service": {
+      "port": 8002,
+      "script": "services/database_service.py",
+      "dependencies": []
+    },
+    "user_service": {
+      "port": 8003,
+      "script": "services/user_service.py",
+      "dependencies": ["database_service"]
+    },
+    "payment_service": {
+      "port": 8004,
+      "script": "services/payment_service.py",
+      "dependencies": ["database_service"]
+    },
+    "echo_service": {
+      "port": 8005,
+      "script": "services/echo_service.py",
+      "dependencies": []
+    }
+  }
+}
+

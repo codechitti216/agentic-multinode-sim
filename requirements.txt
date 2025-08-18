@@ -1,6 +1,10 @@
-fastapi
-uvicorn[standard]
-requests
-python-dotenv
-typer
-pydantic
+fastapi==0.95.1
+uvicorn==0.22.0
+requests==2.31.0
+psutil==5.9.5
+python-dateutil==2.8.2
+pytest==7.4.0
+matplotlib==3.9.0
+networkx==3.3
+Pillow==10.4.0
+

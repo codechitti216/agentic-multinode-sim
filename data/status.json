@@ -1,0 +1,41 @@
+{
+  "timestamp": 1755539924.474925,
+  "services": {
+    "api_gateway": {
+      "running": false,
+      "healthy": false,
+      "pid": null,
+      "port": 8001,
+      "health_reason": "Healthy via /healthz"
+    },
+    "database_service": {
+      "running": false,
+      "healthy": false,
+      "pid": null,
+      "port": 8002,
+      "health_reason": "Unknown"
+    },
+    "user_service": {
+      "running": false,
+      "healthy": false,
+      "pid": null,
+      "port": 8003,
+      "health_reason": "Unknown"
+    },
+    "payment_service": {
+      "running": false,
+      "healthy": false,
+      "pid": null,
+      "port": 8004,
+      "health_reason": "Unknown"
+    },
+    "echo_service": {
+      "running": false,
+      "healthy": false,
+      "pid": null,
+      "port": 8005,
+      "health_reason": "Unknown"
+    }
+  },
+  "agents": {}
+}

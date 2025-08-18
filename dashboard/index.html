@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaos Triage Arena Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .header .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #3498db;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .port-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+        
+        .service-card.unhealthy {
+            border-left-color: #e74c3c;
+        }
+        
+        .service-card.stopped {
+            border-left-color: #95a5a6;
+        }
+        
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .service-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .service-status {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-badge.running {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-badge.stopped {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-badge.healthy {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-badge.unhealthy {
+            background: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .service-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .metric-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 0.25rem;
+        }
+        
+        .service-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-primary { background: #3498db; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-warning { background: #f39c12; color: white; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-secondary { background: #95a5a6; color: white; }
+        
+        .charts-section { margin-top: 2rem; }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 1.5rem; }
+        .chart-card { background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .chart-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #2c3e50; }
+        .chart-container { position: relative; height: 300px; }
+        .overview-chart { grid-column: 1 / -1; }
+        
+        .toast { position: fixed; top: 20px; right: 20px; padding: 1rem 1.5rem; border-radius: 4px; color: white; font-weight: 500; z-index: 1000; transform: translateX(400px); transition: transform 0.3s ease; }
+        .toast.show { transform: translateX(0); }
+        .toast.success { background: #27ae60; }
+        .toast.error { background: #e74c3c; }
+        
+        .loading { opacity: 0.6; pointer-events: none; }
+        .loading::after { content: "..."; animation: dots 1s infinite; }
+        @keyframes dots { 0%, 20% { content: ""; } 40% { content: "."; } 60% { content: ".."; } 80%, 100% { content: "..."; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎭 Chaos Triage Arena</h1>
+        <div class="controls">
+            <label for="overview-toggle">Overview Mode:</label>
+            <label class="toggle-switch">
+                <input type="checkbox" id="overview-toggle">
+                <span class="slider"></span>
+            </label>
+            <div class="port-badge" id="port-badge">Loading...</div>
+            
+            <button id="btn-start-rec" class="btn btn-secondary">Start Recording</button>
+            <button id="btn-stop-rec" class="btn btn-secondary" disabled>Stop Recording</button>
+            <label style="display:flex;align-items:center;gap:6px;">
+                <input type="checkbox" id="upload-toggle" /> Upload to server
+            </label>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="services-grid" id="services-grid"></div>
+        <div class="charts-section">
+            <div class="charts-grid" id="charts-grid"></div>
+        </div>
+    </div>
+    
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Auto-generated by Manus: Chaos Triage Arena scaffold
+        
+        const API_BASE = window.location.origin + '/api';
+        
+        // Global state
+        let services = {};
+        let metrics = {};
+        let actionHistory = [];
+        let charts = {};
+        let overviewMode = false;
+        
+        // Recording state
+        let recStream = null;
+        let recRecorder = null;
+        let recChunks = [];
+        let recUploading = false;
+        
+        function logUserAction(...args) { try { console.log('[DASH]', ...args); } catch (_) {} }
+        function timeNow() { return new Date().toISOString(); }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePortBadge();
+            initializeEventListeners();
+            initializeRecordingControls();
+            startUpdateLoops();
+        });
+        
+        function initializePortBadge() {
+            document.getElementById('port-badge').textContent = window.location.origin;
+        }
+        
+        function initializeEventListeners() {
+            document.getElementById('overview-toggle').addEventListener('change', function(e) {
+                overviewMode = e.target.checked;
+                updateCharts();
+            });
+        }
+        
+        function initializeRecordingControls() {
+            const btnStart = document.getElementById('btn-start-rec');
+            const btnStop = document.getElementById('btn-stop-rec');
+            btnStart.onclick = startRecording;
+            btnStop.onclick = stopRecording;
+        }
+        
+        async function startRecording() {
+            const btnStart = document.getElementById('btn-start-rec');
+            const btnStop = document.getElementById('btn-stop-rec');
+            try {
+                recStream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 30 }, audio: false });
+                recChunks = [];
+                const mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm;codecs=vp8';
+                recRecorder = new MediaRecorder(recStream, { mimeType: mime, videoBitsPerSecond: 4_000_000 });
+                recRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) recChunks.push(e.data); };
+                recRecorder.onstop = handleRecordingStop;
+                recRecorder.start(1000);
+                btnStart.disabled = true;
+                btnStop.disabled = false;
+                logUserAction('recording started');
+            } catch (e) {
+                console.error('Recording start failed', e);
+                showToast('Screen recording not granted', 'error');
+            }
+        }
+        
+        function stopRecording() {
+            const btnStart = document.getElementById('btn-start-rec');
+            const btnStop = document.getElementById('btn-stop-rec');
+            try {
+                if (recRecorder && recRecorder.state !== 'inactive') recRecorder.stop();
+                if (recStream) {
+                    recStream.getTracks().forEach(t => t.stop());
+                    recStream = null;
+                }
+            } catch (_) {}
+            btnStart.disabled = false;
+            btnStop.disabled = true;
+            logUserAction('recording stopped');
+        }
+        
+        async function handleRecordingStop() {
+            const blob = new Blob(recChunks, { type: recRecorder && recRecorder.mimeType || 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            const ts = new Date().toISOString().replace(/[:.]/g, '-');
+            const name = `chaos_dashboard_${ts}.webm`;
+            
+            // Offer download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = name;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+            
+            // Optional upload
+            const doUpload = document.getElementById('upload-toggle').checked;
+            if (doUpload) {
+                try {
+                    recUploading = true;
+                    showToast('Uploading recording...', 'success');
+                    const resp = await fetch(API_BASE + '/upload-recording', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'video/webm' },
+                        body: blob
+                    });
+                    const txt = await resp.text();
+                    logUserAction('upload complete', txt);
+                    showToast('Recording uploaded', 'success');
+                } catch (e) {
+                    console.error('Upload failed', e);
+                    showToast('Upload failed', 'error');
+                } finally {
+                    recUploading = false;
+                }
+            }
+        }
+        
+        function startUpdateLoops() {
+            updateDashboard(); setInterval(updateDashboard, 1000);
+            updateHistory(); setInterval(updateHistory, 2000);
+            updateActionGraphs(); setInterval(updateActionGraphs, 5000);
+        }
+        
+        async function updateDashboard() {
+            try {
+                const [statusResponse, metricsResponse] = await Promise.all([
+                    fetch(`${API_BASE}/status`),
+                    fetch(`${API_BASE}/metrics`)
+                ]);
+                services = await statusResponse.json();
+                metrics = await metricsResponse.json();
+                renderServices();
+            } catch (error) {
+                console.error('Error updating dashboard:', error);
+            }
+        }
+        
+        async function updateHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/action-history`);
+                const data = await response.json();
+                actionHistory = data.history || [];
+            } catch (error) {
+                console.error('Error updating history:', error);
+            }
+        }
+        
+        async function updateActionGraphs() {
+            try {
+                const response = await fetch(`${API_BASE}/action-metrics`);
+                const actionMetrics = await response.json();
+                updateCharts();
+            } catch (error) {
+                console.error('Error updating action graphs:', error);
+            }
+        }
+        
+        function renderServices() {
+            const grid = document.getElementById('services-grid');
+            grid.innerHTML = '';
+            Object.entries(services).forEach(([serviceName, status]) => {
+                const serviceMetrics = metrics[serviceName] || {};
+                logButtonStates(serviceName, status);
+                const card = createServiceCard(serviceName, status, serviceMetrics);
+                grid.appendChild(card);
+            });
+        }
+        
+        function logButtonStates(serviceName, status) {
+            if (status.running) { console.log(`[DASH] [${serviceName}] Start disabled: service is already running.`); }
+            else { console.log(`[DASH] [${serviceName}] Start enabled: service is stopped.`); }
+            if (!status.running) { console.log(`[DASH] [${serviceName}] Stop disabled: service is not running.`); }
+            else { console.log(`[DASH] [${serviceName}] Stop enabled: service is running.`); }
+            if (!status.running) { console.log(`[DASH] [${serviceName}] Kill disabled: service is not running.`); }
+            else { console.log(`[DASH] [${serviceName}] Kill enabled: service is running.`); }
+            if (!status.running) { console.log(`[DASH] [${serviceName}] Recover disabled: service is not running.`); }
+            else { console.log(`[DASH] [${serviceName}] Recover enabled: service is running.`); }
+        }
+        
+        function createServiceCard(serviceName, status, serviceMetrics) {
+            const card = document.createElement('div');
+            card.className = `service-card ${getServiceCardClass(status)}`;
+            card.innerHTML = `
+                <div class="service-header">
+                    <div class="service-name">${serviceName}</div>
+                    <div class="service-status">
+                        <span class="status-badge ${status.running ? 'running' : 'stopped'}">${status.running ? 'Running' : 'Stopped'}</span>
+                        <span class="status-badge ${status.healthy ? 'healthy' : 'unhealthy'}">${status.healthy ? 'Healthy' : 'Unhealthy'}</span>
+                    </div>
+                </div>
+                <div class="service-metrics">
+                    <div class="metric"><div class="metric-value">${status.port}</div><div class="metric-label">Port</div></div>
+                    <div class="metric"><div class="metric-value">${Math.round(serviceMetrics.cpu_percent || 0)}%</div><div class="metric-label">CPU</div></div>
+                    <div class="metric"><div class="metric-value">${Math.round(serviceMetrics.memory_mb || 0)}MB</div><div class="metric-label">Memory</div></div>
+                    <div class="metric"><div class="metric-value">${status.pid || 'N/A'}</div><div class="metric-label">PID</div></div>
+                </div>
+                <div class="service-actions">
+                    <button class="btn btn-primary" onclick="performAction(event, 'start', '${serviceName}')" ${status.running ? 'disabled' : ''}>Start</button>
+                    <button class="btn btn-warning" onclick="performAction(event, 'stop', '${serviceName}')" ${!status.running ? 'disabled' : ''}>Stop</button>
+                    <button class="btn btn-danger" onclick="performAction(event, 'kill', '${serviceName}')" ${!status.running ? 'disabled' : ''}>Kill</button>
+                    <button class="btn btn-success" onclick="performAction(event, 'recover', '${serviceName}')">Recover</button>
+                    <button class="btn btn-secondary" onclick="performAction(event, 'inject', '${serviceName}', 'logical_failure')">Inject Failure</button>
+                    <button class="btn btn-secondary" onclick="performAction(event, 'cpu-stress', '${serviceName}', '50')">CPU Stress</button>
+                    <button class="btn btn-secondary" onclick="performAction(event, 'memory-leak', '${serviceName}', '100')">Memory Leak</button>
+                    <button class="btn btn-secondary" onclick="performAction(event, 'latency', '${serviceName}', '500')">Add Latency</button>
+                </div>`;
+            return card;
+        }
+        
+        function getServiceCardClass(status) {
+            if (!status.running) return 'stopped';
+            if (!status.healthy) return 'unhealthy';
+            return '';
+        }
+        
+        let portModal = null;
+        function showPortInUseModal(serviceName, port, pid, cmdline, retryStart) {
+            if (portModal) portModal.remove();
+            portModal = document.createElement('div');
+            portModal.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;';
+            portModal.innerHTML = `
+                <div style="background:#fff;padding:2em 2.5em;border-radius:8px;box-shadow:0 2px 16px #0003;max-width:420px;min-width:320px;">
+                    <h3 style="margin-top:0">Port ${port} is already in use</h3>
+                    <div style="font-size:0.95em;margin-bottom:1em;">
+                        <b>Service:</b> ${serviceName}<br/>
+                        <b>Port:</b> ${port}<br/>
+                        <b>PID:</b> ${pid}<br/>
+                        <b>Command:</b> <span style="word-break:break-all">${cmdline}</span>
+                    </div>
+                    <div style="display:flex;gap:1em;justify-content:flex-end;">
+                        <button id="modal-cancel-btn">Cancel</button>
+                        <button id="modal-force-btn" style="background:#c00;color:#fff;">Force Kill & Retry</button>
+                    </div>
+                </div>`;
+            document.body.appendChild(portModal);
+            document.getElementById('modal-cancel-btn').onclick = () => { portModal.remove(); };
+            document.getElementById('modal-force-btn').onclick = async () => {
+                document.getElementById('modal-force-btn').disabled = true;
+                document.getElementById('modal-force-btn').innerText = 'Killing...';
+                try {
+                    const resp = await fetch(`/api/force-kill-port/${port}`, { method: 'POST' });
+                    const data = await resp.json();
+                    if (data.ok) {
+                        portModal.remove();
+                        setTimeout(retryStart, 500);
+                    } else {
+                        alert('Failed to kill process: ' + (data.error || 'unknown error'));
+                        portModal.remove();
+                    }
+                } catch (e) {
+                    alert('Error: ' + e);
+                    portModal.remove();
+                }
+            };
+        }
+        
+        async function performAction(event, action, serviceName, param = null) {
+            const button = event.target;
+            const originalText = button.textContent;
+            console.log(`[DASH] User clicked ${action} for ${serviceName}`);
+            button.textContent = originalText + '...';
+            button.classList.add('loading');
+            button.disabled = true;
+            try {
+                let url = param ? `${API_BASE}/actions/${action}/${serviceName}/${param}` : `${API_BASE}/actions/${action}/${serviceName}`;
+                const response = await fetch(url, { method: 'POST' });
+                const text = await response.text();
+                let result; try { result = JSON.parse(text); } catch { result = { raw: text }; }
+                if (result.ok) {
+                    showToast(`${action} ${serviceName}: Success`, 'success');
+                    logUserAction('action success', { action, serviceName, result });
+                } else {
+                    showToast(`${action} ${serviceName}: ${result.error || 'Failed'}`, 'error');
+                    logUserAction('action failure', { action, serviceName, status: response.status, result });
+                }
+                if (result && result.reason === 'port_in_use') {
+                    showPortInUseModal(serviceName, result.port || (services[serviceName] && services[serviceName].port), result.pid, result.cmdline, () => performAction(event, action, serviceName));
+                    return;
+                }
+                setTimeout(updateDashboard, 500);
+            } catch (error) {
+                showToast(`${action} ${serviceName}: Network error`, 'error');
+                console.error('Action error:', error);
+                logUserAction('action network error', { action, serviceName, message: String(error) });
+            } finally {
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('loading');
+                    button.disabled = false;
+                }, 1000);
+            }
+        }
+        
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+        
+        function updateCharts() {
+            const chartsGrid = document.getElementById('charts-grid');
+            chartsGrid.innerHTML = '';
+            if (overviewMode) { createOverviewChart(); }
+            else { Object.keys(services).forEach(serviceName => { createServiceChart(serviceName); }); }
+        }
+        
+        function createOverviewChart() {
+            const chartsGrid = document.getElementById('charts-grid');
+            const chartCard = document.createElement('div');
+            chartCard.className = 'chart-card overview-chart';
+            chartCard.innerHTML = `
+                <div class="chart-title">Overview - Action Duration Timeline</div>
+                <div class="chart-container"><canvas id="overview-chart"></canvas></div>`;
+            chartsGrid.appendChild(chartCard);
+            const ctx = document.getElementById('overview-chart').getContext('2d');
+            const datasets = {}; const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6']; let colorIndex = 0;
+            actionHistory.forEach(action => {
+                if (!datasets[action.service]) {
+                    datasets[action.service] = {
+                        label: action.service,
+                        data: [],
+                        borderColor: colors[colorIndex % colors.length],
+                        backgroundColor: colors[colorIndex % colors.length] + '20',
+                        tension: 0.1
+                    };
+                    colorIndex++;
+                }
+                datasets[action.service].data.push({ x: new Date(action.timestamp * 1000), y: action.elapsed });
+            });
+            new Chart(ctx, { type: 'line', data: { datasets: Object.values(datasets) }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'minute' } }, y: { title: { display: true, text: 'Duration (seconds)' } } }, plugins: { legend: { display: true } } } });
+        }
+        
+        function createServiceChart(serviceName) {
+            const chartsGrid = document.getElementById('charts-grid');
+            const chartCard = document.createElement('div');
+            chartCard.className = 'chart-card';
+            chartCard.innerHTML = `
+                <div class="chart-title">${serviceName} - Action Duration</div>
+                <div class="chart-container"><canvas id="chart-${serviceName}"></canvas></div>`;
+            chartsGrid.appendChild(chartCard);
+            const ctx = document.getElementById(`chart-${serviceName}`).getContext('2d');
+            const serviceActions = actionHistory.filter(action => action.service === serviceName);
+            const data = serviceActions.map(action => ({ x: new Date(action.timestamp * 1000), y: action.elapsed }));
+            new Chart(ctx, { type: 'line', data: { datasets: [{ label: 'Action Duration', data, borderColor: '#3498db', backgroundColor: '#3498db20', tension: 0.1 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'minute' } }, y: { title: { display: true, text: 'Duration (seconds)' } } }, plugins: { legend: { display: false } } } });
+        }
+    </script>
+</body>
+</html>
+
